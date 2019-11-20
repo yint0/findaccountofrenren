@@ -1,22 +1,26 @@
 import requests
-from selenium import webdriver
+# from selenium import webdriver
 import time
 import json
 from bs4 import BeautifulSoup
 import re
 from PIL import Image
-import pytesseract
+
+# import pytesseract
 
 startnum = 1570069
 
-for startnum in range(1570069, 1580000):
+while startnum < 1570070:  # 1580001
     # 初始化
     s = requests.session()
     account = startnum
     captcha = 1
+    # 浏览器输入chrome://version/查看用户代理
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"}
 
     # 访问主页
-    response1 = s.get("https://safe.renren.com/standalone/findpwd#nogo")
+    response1 = s.get("https://safe.renren.com/standalone/findpwd#nogo", headers=headers)
     html = response1.text
     soup = BeautifulSoup(html, "lxml")
 
@@ -36,12 +40,30 @@ for startnum in range(1570069, 1580000):
     capchoose = re.search('rk=800&t=safecenter_.*?(\d")', html)
     capdol = "http://icode.renren.com/getcode.do?" + capchoose.group()
     capimg = s.get(capdol)
-    with open("C:/资料/project/renren/tu/" + str(account) + ".jpg", "wb") as wf:
+    with open("C:/data/project/renren/tu/" + str(account) + ".jpg", "wb") as wf:
         wf.write(capimg.content)
+
+    '''
+    # 修改图片尺寸，由于训练图片与验证图片尺寸有出入
+    img = Image.open("C:/data/project/renren/tu/" + str(account) + ".jpg")
+    out = img.resize((100, 60), Image.ANTIALIAS)  # resize image with high-quality
+    out.save("C:/data/project/renren/tu/" + str(account) + ".jpg")
 
     # 验证码识别
     # print(pytesseract.image_to_string(Image.open("C:/资料/project/renren/tu/" + str(account) + ".jpg")))
+    url = "http://127.0.0.1:6000/b"
+    files = {'image_file': (
+    'C:/data/project/renren/tu/', open('C:/data/project/renren/tu/' + str(account) + '.jpg', 'rb'), 'application')}
+    r = requests.post(url=url, files=files)
+    res = json.loads(r.text)
+    captcha = res["value"]   
+    '''
+
+    # 输入验证码
+    img = Image.open("C:/data/project/renren/tu/" + str(account) + ".jpg")
+    img.show()
     captcha = input()
+    img.close()
 
     # 设置表单数据
     payload = {"action_token": action_token,
@@ -54,15 +76,27 @@ for startnum in range(1570069, 1580000):
                "_rtk": "dbdaad19"}
 
     # 发送表单并处理结果
-    response2 = s.post("https://safe.renren.com/standalone/findpwd/inputaccount", data=payload)
+    response2 = s.post("https://safe.renren.com/standalone/findpwd/inputaccount", data=payload, headers=headers)
     result = re.search('"code".*?(\d)', response2.text)
     if result.group() == '"code":0':
-        with open("1.txt", "w") as rwf:
+        with open("1.txt", "a") as rwf:
             rwf.write(str(account) + "66@qq.com")
+        print("记录成功")
+        with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
+            wf.write(capimg.content)
     else:
         errresult = re.search('"error_text".*?("})', response2.text)
         if errresult.group() == '"error_text":"验证码不正确"}':
+            print("验证码不正确")
             startnum = startnum - 1
+        else:
+            print("账号不存在")
+            with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
+                wf.write(capimg.content)
+
+    # 每个循环记录进度
+    with open("p.txt", "w") as rwf:
+        rwf.write(str(account) + "66@qq.com")
 
 '''payloadtest={"email":"18721347114",
              "icode":"",
