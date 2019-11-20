@@ -8,9 +8,9 @@ from PIL import Image
 
 # import pytesseract
 
-startnum = 1570069
+startnum = 1570130
 
-while startnum < 1570070:  # 1580001
+while startnum < 1580001:  # 1580001
     # 初始化
     s = requests.session()
     account = startnum
@@ -73,7 +73,7 @@ while startnum < 1570070:  # 1580001
                "captcha": captcha,
                "ajax-type": "json",
                "token": token,
-               "_rtk": "dbdaad19"}
+               "_rtk": "49219b8c"}
 
     # 发送表单并处理结果
     response2 = s.post("https://safe.renren.com/standalone/findpwd/inputaccount", data=payload, headers=headers)
@@ -97,6 +97,7 @@ while startnum < 1570070:  # 1580001
     # 每个循环记录进度
     with open("p.txt", "w") as rwf:
         rwf.write(str(account) + "66@qq.com")
+    startnum += 1
 
 '''payloadtest={"email":"18721347114",
              "icode":"",
