@@ -8,11 +8,11 @@ from PIL import Image
 
 # import pytesseract
 
-# 请注意，遇到被封禁的账号会报错
+# 请注意，遇到被封禁的账号返回json结果
 
-startnum = 1570272
+startnum = 1570642
 
-while startnum < 1570273:  # 1580001 1570272
+while startnum < 1580001:  # 1570272 1580001
     # 初始化
     s = requests.session()
     account = startnum
@@ -83,7 +83,7 @@ while startnum < 1570273:  # 1580001 1570272
     if result.group() == '"code":0':
         with open("1.txt", "a") as rwf:
             rwf.write(str(account) + "66@qq.com\n")
-        r2cont = response2.content
+        '''r2cont = response2.content
         nurl1 = re.search('\?.*(",)', str(r2cont))
         nurl2 = re.sub('["]', '', nurl1.group())
         nameurl = "http://safe.renren.com/standalone/findpwd/resetpwd" + nurl2
@@ -96,19 +96,22 @@ while startnum < 1570273:  # 1580001 1570272
             if i["class"] == "name":
                 namedl = i["title"]
         with open("name.txt", "a") as rwf:
-            rwf.write(namedl+"\n")
+            rwf.write(namedl+"\n")'''
         print("记录成功")
         with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
             wf.write(capimg.content)
     else:
         errresult = re.search('"error_text".*?("})', response2.text)
-        if errresult.group() == '"error_text":"验证码不正确"}':
-            print("验证码不正确")
-            startnum = startnum - 1
+        if (errresult):
+            if errresult.group() == '"error_text":"验证码不正确"}':
+                print("验证码不正确")
+                startnum = startnum - 1
+            else:
+                print("账号不存在")
+                with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
+                    wf.write(capimg.content)
         else:
-            print("账号不存在")
-            with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
-                wf.write(capimg.content)
+            print(response2.text)
 
     startnum += 1
 
