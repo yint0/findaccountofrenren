@@ -8,15 +8,14 @@ from PIL import Image
 
 # import pytesseract
 
-# 请注意，遇到被封禁的账号返回json结果
+# 请注意，遇到未知会返回response.text结果
 
-startnum = 1570642
+startnum = 1571907
 
 while startnum < 1580001:  # 1570272 1580001
     # 初始化
     s = requests.session()
     account = startnum
-    captcha = 1
     # 浏览器输入chrome://version/查看用户代理
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.97 Safari/537.36"}
@@ -80,7 +79,7 @@ while startnum < 1580001:  # 1570272 1580001
     # 发送表单并处理结果
     response2 = s.post("https://safe.renren.com/standalone/findpwd/inputaccount", data=payload, headers=headers)
     result = re.search('"code".*?(\d)', response2.text)
-    if result.group() == '"code":0':
+    if result.group() == '"code":0':  # 记录成功
         with open("1.txt", "a") as rwf:
             rwf.write(str(account) + "66@qq.com\n")
         '''r2cont = response2.content
@@ -100,7 +99,7 @@ while startnum < 1580001:  # 1570272 1580001
         print("记录成功")
         with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
             wf.write(capimg.content)
-    else:
+    elif result.group() == '"code":5':  # 验证码错误，账号不存在，账号封禁
         errresult = re.search('"error_text".*?("})', response2.text)
         if (errresult):
             if errresult.group() == '"error_text":"验证码不正确"}':
@@ -111,6 +110,13 @@ while startnum < 1580001:  # 1570272 1580001
                 with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
                     wf.write(capimg.content)
         else:
+            print(response2.text)
+    else:  # 服务器繁忙，其他未知错误
+        try:
+            serresult = re.search('服务.*?(再试)', response2.text)
+            print(serresult.group())
+            startnum = startnum - 1
+        except:
             print(response2.text)
 
     startnum += 1
