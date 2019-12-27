@@ -17,9 +17,9 @@ def get_resname(url):
     resname = re.search('title=".*?>', str(listofrsp))
     return resname.group()
 
-startnum = 1574501
+startnum = 1575550
 
-while startnum < 1580001:  # 1570272  1580001
+while startnum < 1580001:  #    1570272  1580001
     # 初始化
     s = requests.session()
     account = startnum
@@ -55,7 +55,7 @@ while startnum < 1580001:  # 1570272  1580001
     # 修改图片尺寸，由于训练图片与验证图片尺寸有出入
     img = Image.open("C:/data/project/renren/tu/" + str(account) + ".jpg")
     out = img.resize((100, 60), Image.ANTIALIAS)  # resize image with high-quality
-    out.save("C:/data/project/renren/tu/" + str(account) + ".jpg")
+    out.save("C:/data/project/renren/tu/" + str(account) + ".jpg")'''
 
     # 验证码识别
     # print(pytesseract.image_to_string(Image.open("C:/资料/project/renren/tu/" + str(account) + ".jpg")))
@@ -64,14 +64,14 @@ while startnum < 1580001:  # 1570272  1580001
     'C:/data/project/renren/tu/', open('C:/data/project/renren/tu/' + str(account) + '.jpg', 'rb'), 'application')}
     r = requests.post(url=url, files=files)
     res = json.loads(r.text)
-    captcha = res["value"]   
-    '''
+    captcha = res["value"]
 
-    # 输入验证码
+
+    '''# 输入验证码
     img = Image.open("C:/data/project/renren/tu/" + str(account) + ".jpg")
     img.show()
     captcha = input()
-    img.close()
+    img.close()'''
 
     # 设置表单数据
     payload = {"action_token": action_token,
@@ -98,6 +98,7 @@ while startnum < 1580001:  # 1570272  1580001
         with open("name.txt", "a") as rwf:
             rwf.write(str(account) + "66@qq.com" + resname + "\n")'''
         print(nameurl+"\n"+"记录成功"+str(account) + "66@qq.com")
+        time.sleep(4)
         with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
             wf.write(capimg.content)
     elif result.group() == '"code":5':  # 验证码错误，账号不存在，账号封禁
@@ -125,6 +126,8 @@ while startnum < 1580001:  # 1570272  1580001
     # 每个循环记录进度
     with open("p.txt", "w") as rwf:
         rwf.write(str(account) + "66@qq.com")
+
+    time.sleep(1)
 
 '''payloadtest={"email":"18721347114",
              "icode":"",
