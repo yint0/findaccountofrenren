@@ -4,10 +4,11 @@
     <list default="true" id="283cc457-8544-4bc0-9027-fbf1a35e352a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/11111.txt" beforeDir="false" afterPath="$PROJECT_DIR$/11111.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/name.txt" beforeDir="false" afterPath="$PROJECT_DIR$/name.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/p.txt" beforeDir="false" afterPath="$PROJECT_DIR$/p.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rr.py" beforeDir="false" afterPath="$PROJECT_DIR$/rr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tu/1574501.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/tu/1574501.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tu/1574502.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/tu/1574502.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tu/1570272.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/tu/1570272.jpg" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -130,9 +131,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.rr" />
+        <item itemvalue="Python.webserver_recognize_api" />
         <item itemvalue="Python.hw" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.webserver_recognize_api" />
       </list>
     </recent_temporary>
   </component>

