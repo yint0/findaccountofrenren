@@ -1,6 +1,6 @@
 action_token: MJ9Zt0tCTXpPhtmzRm8mhlmZT9pAk8iO
 domain: renren.com
-account: 804969671@qq.com
+account: *********@qq.com
 _captcha_type: safecenter_98854_LVwfrWJg
 captcha: krsm
 ajax-type: json
@@ -11,7 +11,7 @@ _rtk发现过不一样的，虽然好像不影响使用，并且dbdaad19较多
 
 action_token: Hq5A2UjktR28ipSllfsFxAYi0q5acmGX
 domain: renren.com
-account: 804969671@qq.com
+account: *********@qq.com
 _captcha_type: safecenter_99565_baJpPjaf
 captcha: 2341
 ajax-type: json
@@ -32,15 +32,6 @@ _rtk: dbdaad19
 
 
 
-email: 18721347114
-icode: 
-origURL: http://www.renren.com/home
-domain: renren.com
-key_id: 1
-captcha_type: web_login
-password: 3613cc0dc0b550aa0b5288a3b1eceaeb566dbd26b16681828cdd75af67928b95
-rkey: c5c08b36d1daef7b10b7ae3c886850e6
-f: https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DfZc5-5pSIdUrjZfqFczgoxelCwSdEGnro908KKCCanm%26wd%3D%26eqid%3D979dfb1b00024957000000035dc131b3
 
 
 {"code":true,"homeUrl":"http://www.renren.com/home"}
